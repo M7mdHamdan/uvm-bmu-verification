@@ -1,37 +1,37 @@
 class BmuSequenceItem extends uvm_sequence_item;
-    // Input signals
-    rand logic [31:0] data_in;
-    rand logic [4:0] shift_amount;
-    rand logic [2:0] operation;
+
+    rand logic clk;
+    rand logic rstL;
+    rand logic scanMode;
+    rand logic validIn;
+    rand logic ap;  //Fix
+    rand logic csrRenIn;
+    rand logic [31:0] csrRdataIn;
+    rand logic [31:0] aIn;
+    rand logic [31:0] bIn;
     
-    // Output signals
-    logic [31:0] data_out;
-    logic overflow;
-    logic underflow;
-    logic error;
-    
-    // UVM macros
+    logic [31:0] resultFf;  // Output - Final result
+    logic error;            // Output - Error signal
+
+    // Utility and Field macros
     `uvm_object_utils_begin(BmuSequenceItem)
-        `uvm_field_int(data_in, UVM_ALL_ON)
-        `uvm_field_int(shift_amount, UVM_ALL_ON)
-        `uvm_field_int(operation, UVM_ALL_ON)
-        `uvm_field_int(data_out, UVM_ALL_ON)
-        `uvm_field_int(overflow, UVM_ALL_ON)
-        `uvm_field_int(underflow, UVM_ALL_ON)
-        `uvm_field_int(error, UVM_ALL_ON)
+    `uvm_field_int(clk, UVM_ALL_ON)
+    `uvm_field_int(rstL, UVM_ALL_ON)
+    `uvm_field_int(scanMode, UVM_ALL_ON)
+    `uvm_field_int(validIn, UVM_ALL_ON)
+    `uvm_field_int(ap, UVM_ALL_ON)
+    `uvm_field_int(csrRenIn, UVM_ALL_ON)
+    `uvm_field_int(csrRdataIn, UVM_ALL_ON)
+    `uvm_field_int(aIn, UVM_ALL_ON)
+    `uvm_field_int(bIn, UVM_ALL_ON)
+    `uvm_field_int(resultFf, UVM_ALL_ON)
+    `uvm_field_int(error, UVM_ALL_ON)
     `uvm_object_utils_end
-    
-    // Constructor
+
+
+    //  Constructor: new
     function new(string name = "BmuSequenceItem");
         super.new(name);
-    endfunction
+    endfunction: new
     
-    // Constraints
-    constraint valid_operation {
-        operation inside {3'b000, 3'b001, 3'b010, 3'b011, 3'b100, 3'b101};
-    }
-    
-    constraint valid_shift {
-        shift_amount inside {[0:31]};
-    }
-endclass
+endclass: BmuSequenceItem
