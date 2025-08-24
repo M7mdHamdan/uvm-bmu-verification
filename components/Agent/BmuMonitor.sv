@@ -19,19 +19,21 @@ class BmuMonitor extends uvm_monitor;
     
     task run_phase(uvm_phase phase);
         forever begin
-            @(posedge vif.clk);
-            if (vif.reset_n) begin
-                item = BmuSequenceItem::type_id::create("item");
-                item.data_in = vif.MONITOR_CB.data_in;
-                item.shift_amount = vif.MONITOR_CB.shift_amount;
-                item.operation = vif.MONITOR_CB.operation;
-                item.data_out = vif.MONITOR_CB.data_out;
-                item.overflow = vif.MONITOR_CB.overflow;
-                item.underflow = vif.MONITOR_CB.underflow;
-                item.error = vif.MONITOR_CB.error;
-                ap.write(item);
-                `uvm_info(get_type_name(), $sformatf("Monitor captured: %s", item.sprint()), UVM_HIGH)
-            end
+            @(vif.MONITOR_CB);
+            item = BmuSequenceItem::type_id::create("item");
+            item.rstL = vif.MONITOR_CB.rstL;
+            item.scanMode = vif.MONITOR_CB.scanMode;
+            item.validIn = vif.MONITOR_CB.validIn;
+            item.ap = vif.MONITOR_CB.ap;
+            item.csrRenIn = vif.MONITOR_CB.csrRenIn;
+            item.csrRdataIn = vif.MONITOR_CB.csrRdataIn;
+            item.aIn = vif.MONITOR_CB.aIn;
+            item.bIn = vif.MONITOR_CB.bIn;
+            item.opcode = vif.MONITOR_CB.opcode;
+            item.resultFf = vif.MONITOR_CB.resultFf;
+            item.error = vif.MONITOR_CB.error;
+            ap.write(item);
+            `uvm_info(get_type_name(), $sformatf("Monitor captured: %s", item.sprint()), UVM_HIGH)
         end
     endtask
 endclass
