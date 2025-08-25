@@ -4,12 +4,21 @@ interface BmuInterface(input logic clk);
     logic rstL;
     logic scanMode;
     logic validIn;
-    logic ap;  // Should be rtl_alu_pkt_t in actual implementation
+    typedef struct packed { 
+        logic zbb;
+        logic land;
+        logic lxor;
+        logic sll;
+        logic sra;
+
+
+    } ap_struct;
+    
+    ap_struct ap;
     logic csrRenIn;
     logic [31:0] csrRdataIn;
     logic [31:0] aIn;
     logic [31:0] bIn;
-    logic [31:0] opcode;
     
     // Output signals
     logic [31:0] resultFf;

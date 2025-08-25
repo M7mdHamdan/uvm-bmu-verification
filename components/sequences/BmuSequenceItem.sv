@@ -4,7 +4,7 @@ class BmuSequenceItem extends uvm_sequence_item;
     rand logic rstL;
     rand logic scanMode;
     rand logic validIn;
-    rand logic ap;  //Fix
+    rand BmuInterface::ap_struct ap;
     rand logic csrRenIn;
     rand logic [31:0] csrRdataIn;
     rand logic [31:0] aIn;
