@@ -27,10 +27,16 @@ class BmuRefModel extends uvm_component;
 
                 //CSR Operations
                 //Ex1
-                if(refItem.csrRenIn == 1) begin
-                    refItem.resultFf = refItem.csrRdataIn;
-                end
-                
+                //Initial phase -- Read
+				if(refItem.csrRenIn == 1 && refItem.ap.csr_write == 0) begin
+	                    refItem.resultFf = refItem.csrRdataIn;
+	                end
+				if(refItem.ap.csr_write == 1 && refItem.ap.csr_imm == 1 && refItem.csrRenIn == 0) begin
+					 refItem.resultFf = refItem.bIn;
+				end
+				else if(refItem.ap.csr_write == 1 && refItem.ap.csr_imm == 0 && refItem.csrRenIn == 0) begin
+					refItem.resultFf = refItem.aIn;
+				end
 
             end
             1: begin
