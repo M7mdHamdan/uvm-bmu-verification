@@ -1,6 +1,6 @@
 class BmuRefModel extends uvm_component;
-    uvm_analysis_export #(BmuSequenceItem) in_export;
-    uvm_analysis_port #(BmuSequenceItem) exp_port;
+    uvm_analysis_export #(BmuSequenceItem) inExport;
+    uvm_analysis_port #(BmuSequenceItem) expPort;
 
     function new(string name = "BmuRefModel", uvm_component parent);
         super.new(name, parent);
@@ -8,8 +8,8 @@ class BmuRefModel extends uvm_component;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        in_export = new("in_export", this);
-        exp_port = new("exp_port", this);
+        inExport = new("in_export", this);
+        expPort = new("exp_port", this);
     endfunction
 
     function void connect_phase(uvm_phase phase);
@@ -20,11 +20,14 @@ class BmuRefModel extends uvm_component;
         BmuSequenceItem refItem = BmuSequenceItem::type_id::create("item");
         refItem.copy(inItem);
         //Ref Model Stimulus Generation
-        case ($countones(refItem.ap))
         refItem.error = 0;
-        0: begin
-            // Generate stimulus for case 0
-
+        
+        // Pre-compute subtraction result for use in multiple operations
+        logic [31:0] subResult = refItem.aIn - refItem.bIn;
+        
+        case ($countones(refItem.ap))
+            0: begin
+                // Generate stimulus for case 0
                 //CSR Operations
                 //Ex1
                 //Initial phase -- Read
@@ -87,7 +90,7 @@ class BmuRefModel extends uvm_component;
                     refItem.resultFf = refItem.aIn + refItem.bIn;
                 end
                 if (refItem.ap.sub == 1) begin
-                    refItem.resultFf = refItem.aIn - refItem.bIn;
+                    refItem.resultFf = subResult;
                 end
 
                 //Ex 12 CLZ
@@ -102,7 +105,10 @@ class BmuRefModel extends uvm_component;
                 if (refItem.ap.siext_h == 1) begin
                     refItem.resultFf = {{16{refItem.aIn[15]}}, refItem.aIn[15:0]};
                 end
-                //Ex 15 Skipped Min
+                //Ex 15 MIN function
+                if (refItem.ap.min == 1) begin
+                    refItem.resultFf = computeSignedComparison(refItem.aIn, refItem.bIn, 1'b0, 1'b1); // signed, min
+                end
 
 
                 //Ex 16 PACKU
@@ -152,17 +158,17 @@ class BmuRefModel extends uvm_component;
                 if (refItem.ap.sh3add == 1 && refItem.ap.zba == 1) begin
                     refItem.resultFf = (refItem.aIn << 3) + refItem.bIn;
                 end
-                //Ex 11
+                //Ex 11 - Signed SLT
                 if (refItem.ap.slt == 1 && refItem.ap.sub == 1) begin
-                    refItem.resultFf = ($signed(refItem.aIn) < $signed(refItem.bIn)) ? 1 : 0;
+                    refItem.resultFf = computeSignedComparison(refItem.aIn, refItem.bIn, 1'b0, 1'b0); // signed, slt
                 end
             end
             3: begin
                 // Generate stimulus for case 3
-                //SET LESS THAN SLT
+                //SET LESS THAN SLT - Unsigned
                 //Ex 11
                 if (refItem.ap.slt == 1 && refItem.ap.sub == 1 && refItem.ap.unsign == 1) begin
-                    refItem.resultFf = ($unsigned(refItem.aIn) < $unsigned(refItem.bIn)) ? 1 : 0;
+                    refItem.resultFf = computeSignedComparison(refItem.aIn, refItem.bIn, 1'b1, 1'b0); // unsigned, slt
                 end
             end
             default: begin
@@ -171,17 +177,48 @@ class BmuRefModel extends uvm_component;
                 // Generate stimulus for default case
             end
         endcase
-        
 
-
-
-    
-        exp_port.write(refItem);
+        expPort.write(refItem);
     endfunction
-
-endclass: BmuRefModel
     
-        exp_port.write(refItem);
+    function logic [31:0] computeSignedComparison(logic [31:0] a, logic [31:0] b, logic is_unsigned, logic is_min);
+        logic comparisonResult;
+
+        if (is_unsigned) begin
+            // Unsigned comparison
+            comparisonResult = ($unsigned(a) < $unsigned(b));
+        end else begin
+            logic [32:0] eA = {a[31], a};  // Sign extend a to 33 bits
+            logic [32:0] eB = {b[31], b};  // Sign extend b to 33 bits
+            logic [32:0] eDiff = eA - eB;
+
+            logic [31:0] actualDiff = eDiff[31:0];
+            logic overflow = eDiff[32] != eDiff[31];
+
+            // Determine the signs
+            logic aSign = a[31];
+            logic bSign = b[31];
+            logic resultSign = actualDiff[31];
+
+            // Case 1: Both same sign 
+            if (aSign == bSign) begin
+                comparisonResult = resultSign;
+            end
+            // Case 2: Different signs
+            else begin
+                if (overflow) begin
+                    comparisonResult = ~resultSign;
+                end else begin
+                    comparisonResult = resultSign;
+                end
+            end
+        end
+        
+        if (is_min) begin
+            return comparisonResult ? a : b;
+        end else begin
+            return comparisonResult ? 32'h1 : 32'h0;
+        end
     endfunction
 
 endclass: BmuRefModel
