@@ -51,7 +51,7 @@ class BmuScoreboard extends uvm_scoreboard;
         refModelPort.write(scoreboardItem);
         
         // Send actual result to checker
-        checkerActualPort.write(scoreboardItem);
+        checkerActualPort.writeActual(scoreboardItem);
         
         // Store in queue for tracking
         transactionQueue.push_back(scoreboardItem);

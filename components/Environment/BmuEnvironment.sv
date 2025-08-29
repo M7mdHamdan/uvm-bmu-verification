@@ -18,7 +18,11 @@ class BmuEnvironment extends uvm_env;
     
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-        agent.monitor.ap.connect(scoreboard.ap_imp);
-        agent.monitor.ap.connect(subscriber.analysis_export);
+        agent.monitor.monitorPort.connect(scoreboard.monitorAnalysisImp);
+        // agent.monitor.ap.connect(subscriber.analysis_export);
+        // Connect scoreboard ports to reference model and checker
+        scoreboard.refModelPort.connect(refModel.inExport);// To reference model
+        scoreboard.checkerActualPort.connect(bmuChecker.actualExport); // To checker
+        refModel.refExpectedExport.connect(bmuChecker.expectedExport);        // Ref model to checker
     endfunction
 endclass

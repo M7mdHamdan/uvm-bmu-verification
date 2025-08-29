@@ -1,6 +1,6 @@
 class BmuMonitor extends uvm_monitor;
     virtual BmuInterface vif;
-    uvm_analysis_port #(BmuSequenceItem) ap;
+    uvm_analysis_port #(BmuSequenceItem) monitorPort;
     BmuSequenceItem item;
     
     `uvm_component_utils(BmuMonitor)
@@ -32,7 +32,7 @@ class BmuMonitor extends uvm_monitor;
             item.opcode = vif.MONITOR_CB.opcode;
             item.resultFf = vif.MONITOR_CB.resultFf;
             item.error = vif.MONITOR_CB.error;
-            ap.write(item);
+            monitorPort.write(item);
             `uvm_info(get_type_name(), $sformatf("Monitor captured: %s", item.sprint()), UVM_HIGH)
         end
     endtask

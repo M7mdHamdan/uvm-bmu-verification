@@ -1,6 +1,6 @@
 class BmuRefModel extends uvm_component;
     uvm_analysis_export #(BmuSequenceItem) inExport;
-    uvm_analysis_port #(BmuSequenceItem) expPort;
+    uvm_analysis_port #(BmuSequenceItem) refExpectedExport;
 
     function new(string name = "BmuRefModel", uvm_component parent);
         super.new(name, parent);
@@ -9,7 +9,7 @@ class BmuRefModel extends uvm_component;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         inExport = new("in_export", this);
-        expPort = new("exp_port", this);
+        refExpectedExport = new("ref_expected_export", this);
     endfunction
 
     function void connect_phase(uvm_phase phase);
@@ -21,6 +21,7 @@ class BmuRefModel extends uvm_component;
         refItem.copy(inItem);
         //Ref Model Stimulus Generation
         refItem.error = 0;
+        refItem.resultFf = 0;
         
         // Pre-compute subtraction result for use in multiple operations
         logic [31:0] subResult = refItem.aIn - refItem.bIn;
@@ -178,7 +179,7 @@ class BmuRefModel extends uvm_component;
             end
         endcase
 
-        expPort.write(refItem);
+        expPort.writeExpected(refItem);
     endfunction
     
     function logic [31:0] computeSignedComparison(logic [31:0] a, logic [31:0] b, logic is_unsigned, logic is_min);

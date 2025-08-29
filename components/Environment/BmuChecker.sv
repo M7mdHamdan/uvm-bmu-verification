@@ -29,14 +29,16 @@ class bmuChecker extends uvm_component;
 
     // Write function for actual DUT results (called by monitor)
     function void writeActual(BmuSequenceItem actualItem);
-        `uvm_info("BMU_CHECKER", $sformatf("Received actual result: %h", actualItem.resultFf), UVM_DEBUG)
+        `uvm_info("BMU_CHECKER", $sformatf("Received actual result: %h",
+                                            actualItem.resultFf), UVM_DEBUG)
         actualQueue.push_back(actualItem);
         compareIfReady();
     endfunction
 
     // Write function for expected results (called by reference model)
     function void writeExpected(BmuSequenceItem expectedItem);
-        `uvm_info("BMU_CHECKER", $sformatf("Received expected result: %h", expectedItem.resultFf), UVM_DEBUG)
+        `uvm_info("BMU_CHECKER", $sformatf("Received expected result: %h",
+                                             expectedItem.resultFf), UVM_DEBUG)
         expectedQueue.push_back(expectedItem);
         compareIfReady();
     endfunction
@@ -57,7 +59,7 @@ class bmuChecker extends uvm_component;
         end
     endfunction
 
-    // Report statistics at end of test
+    // Report
     function void report_phase(uvm_phase phase);
         super.report_phase(phase);
         `uvm_info("BMU_CHECKER", $sformatf("Final Stats: %0d matches, %0d mismatches", matches, mismatches), UVM_LOW)
