@@ -1,4 +1,4 @@
-class BmuAgent extends uvm_agent #(BmuSequenceItem);
+class BmuAgent extends uvm_agent;
     `uvm_component_utils(BmuAgent)
 
     BmuDriver driver;

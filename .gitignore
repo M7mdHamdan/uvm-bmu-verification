@@ -1,0 +1,9 @@
+# Xcelium simulation files
+xrun.log
+xrun.history
+xrun.key
+xcelium.d/
+*.log
+*.history
+waves.*
+

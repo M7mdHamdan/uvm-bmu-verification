@@ -1,0 +1,66 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+// Include RTL library files
+`include "rtl/rtl_pdef.sv"
+`include "rtl/rtl_def.sv"
+import rtl_pkg::*;
+`include "rtl/rtl_defines.sv"
+`include "rtl/rtl_lib.sv"
+
+// Include the actual BMU design
+`include "rtl/Bit_Manibulation_Unit.sv"
+
+// Include Interface separately (cannot be in package)
+`include "components/interfaces/BmuInterface.sv"
+
+// Include our verification package
+`include "package/bmuPkg.sv"
+import bmuPkg::*;
+
+module alu_testbench;
+    logic clk, rstL;
+    always #5 clk = ~clk;
+    
+    BmuInterface bmuIf(clk);
+
+    Bit_Manipulation_Unit dut (
+        .clk(bmuIf.clk),
+        .rst_l(bmuIf.rstL),
+        .scan_mode(bmuIf.scanMode),
+        .valid_in(bmuIf.validIn),
+        .ap(bmuIf.ap),
+        .csr_ren_in(bmuIf.csrRenIn),
+        .csr_rddata_in(bmuIf.csrRdataIn),
+        .a_in(bmuIf.aIn),
+        .b_in(bmuIf.bIn),
+        .result_ff(bmuIf.resultFf),
+        .error(bmuIf.error)
+    );
+
+    initial begin
+        uvm_config_db#(virtual BmuInterface)::set(uvm_root::get(), "*", "vif", bmuIf);
+    end
+
+    initial begin
+        run_test("ArithmeticTest");
+    end
+
+    initial begin
+        clk = 0;
+        rstL = 0;
+        #10 rstL = 1; 
+        #10 rstL = 0;
+    end
+
+    initial begin
+        $shm_open("waves.shm",1);
+        $shm_probe("AS");
+    end
+
+    initial begin
+        $display("simulation finished");
+        #100000; 
+        $finish; 
+    end
+endmodule

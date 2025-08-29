@@ -7,7 +7,7 @@ class BmuMonitor extends uvm_monitor;
     
     function new(string name = "BmuMonitor", uvm_component parent = null);
         super.new(name, parent);
-        ap = new("ap", this);
+        monitorPort = new("monitorPort", this);
     endfunction
     
     function void build_phase(uvm_phase phase);
@@ -19,19 +19,18 @@ class BmuMonitor extends uvm_monitor;
     
     task run_phase(uvm_phase phase);
         forever begin
-            @(vif.MONITOR_CB);
+            @(vif.MonitorCb);
             item = BmuSequenceItem::type_id::create("item");
-            item.rstL = vif.MONITOR_CB.rstL;
-            item.scanMode = vif.MONITOR_CB.scanMode;
-            item.validIn = vif.MONITOR_CB.validIn;
-            item.ap = vif.MONITOR_CB.ap;
-            item.csrRenIn = vif.MONITOR_CB.csrRenIn;
-            item.csrRdataIn = vif.MONITOR_CB.csrRdataIn;
-            item.aIn = vif.MONITOR_CB.aIn;
-            item.bIn = vif.MONITOR_CB.bIn;
-            item.opcode = vif.MONITOR_CB.opcode;
-            item.resultFf = vif.MONITOR_CB.resultFf;
-            item.error = vif.MONITOR_CB.error;
+            item.rstL = vif.MonitorCb.rstL;
+            item.scanMode = vif.MonitorCb.scanMode;
+            item.validIn = vif.MonitorCb.validIn;
+            item.ap = vif.MonitorCb.ap;
+            item.csrRenIn = vif.MonitorCb.csrRenIn;
+            item.csrRdataIn = vif.MonitorCb.csrRdataIn;
+            item.aIn = vif.MonitorCb.aIn;
+            item.bIn = vif.MonitorCb.bIn;
+            item.resultFf = vif.MonitorCb.resultFf;
+            item.error = vif.MonitorCb.error;
             monitorPort.write(item);
             `uvm_info(get_type_name(), $sformatf("Monitor captured: %s", item.sprint()), UVM_HIGH)
         end

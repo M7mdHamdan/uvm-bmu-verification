@@ -4,17 +4,7 @@ interface BmuInterface(input logic clk);
     logic rstL;
     logic scanMode;
     logic validIn;
-    typedef struct packed { 
-        logic zbb;
-        logic land;
-        logic lxor;
-        logic sll;
-        logic sra;
-
-
-    } ap_struct;
-    
-    ap_struct ap;
+    rtl_alu_pkt_t ap;  
     logic csrRenIn;
     logic [31:0] csrRdataIn;
     logic [31:0] aIn;
@@ -34,7 +24,6 @@ interface BmuInterface(input logic clk);
         output csrRdataIn;
         output aIn;
         output bIn;
-        output opcode;
     endclocking
 
     clocking MonitorCb @ (posedge clk);
@@ -47,7 +36,6 @@ interface BmuInterface(input logic clk);
         input csrRdataIn;
         input aIn;
         input bIn;
-        input opcode;
         input resultFf;
         input error;
     endclocking
