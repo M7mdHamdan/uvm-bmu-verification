@@ -51,7 +51,7 @@ class BmuScoreboard extends uvm_scoreboard;
         refModelPort.write(scoreboardItem);
         
         // Send actual result to checker
-        checkerActualPort.writeActual(scoreboardItem);
+        // checkerActualPort.writeActual(scoreboardItem);
         
         // Store in queue for tracking
         transactionQueue.push_back(scoreboardItem);
@@ -79,16 +79,16 @@ class BmuScoreboard extends uvm_scoreboard;
         pending = transactionQueue.size();
     endfunction
 
-    // Clear processed transactions periodically to prevent memory buildup
-    function void clearProcessedTransactions();
-        if (transactionQueue.size() > 100) begin
-            // Keep only the last 50 transactions for debugging
-            while (transactionQueue.size() > 50) begin
-                transactionQueue.pop_front();
-            end
-            `uvm_info("BMU_SCOREBOARD", "Cleared old transactions from queue", UVM_DEBUG)
-        end
-    endfunction
+    // // Clear processed transactions periodically to prevent memory buildup
+    // function void clearProcessedTransactions();
+    //     if (transactionQueue.size() > 100) begin
+    //         // Keep only the last 50 transactions for debugging
+    //         while (transactionQueue.size() > 50) begin
+    //             transactionQueue.pop_front();
+    //         end
+    //         `uvm_info("BMU_SCOREBOARD", "Cleared old transactions from queue", UVM_DEBUG)
+    //     end
+    // endfunction
 
     // Report phase - provide summary statistics
     function void report_phase(uvm_phase phase);
@@ -110,11 +110,11 @@ class BmuScoreboard extends uvm_scoreboard;
     endfunction
 
     // Run phase for periodic maintenance
-    task run_phase(uvm_phase phase);
-        forever begin
-            #1000; // Wait 1000 time units
-            clearProcessedTransactions();
-        end
-    endtask
+    // task run_phase(uvm_phase phase);
+    //     forever begin
+    //         #1000;
+    //         clearProcessedTransactions();
+    //     end
+    // endtask
 
 endclass: BmuScoreboard

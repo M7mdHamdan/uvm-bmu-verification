@@ -20,7 +20,7 @@ class ArithmeticTest extends uvm_test;
         addSeq = addSequence::type_id::create("addSeq");
         addSeq.start(env.agent.sequencer);
         phase.drop_objection(this);
-        `uvm_info(get_type_name(), "End of ALU regression test", UVM_LOW);
+        `uvm_info(get_type_name(), "End of BMU regression test", UVM_LOW);
 
     endtask
 

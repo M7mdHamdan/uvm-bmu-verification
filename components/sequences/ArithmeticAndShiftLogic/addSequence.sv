@@ -12,7 +12,6 @@ class addSequence extends uvm_sequence #(BmuSequenceItem);
         start_item(item);
         `uvm_info(get_type_name(), "Reset the DUT", UVM_NONE);
         finish_item(item);
-        #10;
         // 15 + 27 = 42 LEGIT
             item.rstL = 0;
             item.csrRenIn = 0;
@@ -23,7 +22,6 @@ class addSequence extends uvm_sequence #(BmuSequenceItem);
         // 15 + 27 = 42
         start_item(item);
         finish_item(item);
-        #10;
     endtask
 
 endclass

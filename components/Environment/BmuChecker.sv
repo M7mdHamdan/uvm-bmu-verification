@@ -8,13 +8,13 @@ class bmuChecker extends uvm_component;
     BmuSequenceItem expectedQueue[$];
     
     // Counters
-    int matches;
-    int mismatches;
+    int cMatches;
+    int cMismatches;
 
     function new(string name = "BmuChecker", uvm_component parent);
         super.new(name, parent);
-        matches = 0;
-        mismatches = 0;
+        cMatches = 0;
+        cMismatches = 0;
     endfunction
 
     function void build_phase(uvm_phase phase);
@@ -50,10 +50,10 @@ class bmuChecker extends uvm_component;
             BmuSequenceItem expected = expectedQueue.pop_front();
 
             if (actual.resultFf === expected.resultFf) begin
-                matches++;
+                cMatches++;
                 `uvm_info("BMU_CHECKER", $sformatf("MATCH: Expected=%h, Actual=%h", expected.resultFf, actual.resultFf), UVM_LOW)
             end else begin
-                mismatches++;
+                cMismatches++;
                 `uvm_error("BMU_CHECKER", $sformatf("MISMATCH: Expected=%h, Actual=%h", expected.resultFf, actual.resultFf))
             end
         end
@@ -62,9 +62,9 @@ class bmuChecker extends uvm_component;
     // Report
     function void report_phase(uvm_phase phase);
         super.report_phase(phase);
-        `uvm_info("BMU_CHECKER", $sformatf("Final Stats: %0d matches, %0d mismatches", matches, mismatches), UVM_LOW)
-        if (mismatches > 0) begin
-            `uvm_error("BMU_CHECKER", $sformatf("Test FAILED with %0d mismatches", mismatches))
+        `uvm_info("BMU_CHECKER", $sformatf("Final Stats: %0d matches, %0d mismatches", cMatches, cMismatches), UVM_LOW)
+        if (cMismatches > 0) begin
+            `uvm_error("BMU_CHECKER", $sformatf("Test FAILED with %0d mismatches", cMismatches))
         end else begin
             `uvm_info("BMU_CHECKER", "Test PASSED - All results matched!", UVM_LOW)
         end
