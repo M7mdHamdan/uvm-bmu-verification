@@ -1,6 +1,5 @@
 package rtl_pkg;
-
-typedef struct packed {
+    typedef struct packed {
                        logic misp;
                        logic ataken;
                        logic boffset;
@@ -15,10 +14,11 @@ typedef struct packed {
                        logic way;
                        logic pret;
                        // for power use the pret bit to clock the prett field
-                       logic [31:1] prett
+                       logic [31:1] prett;
                        } rtl_predict_pkt_t;
-                       
-typedef struct packed {
+
+
+    typedef struct packed {
                        logic clz;  // done
                        logic ctz;  // done
                        logic cpop;
@@ -63,4 +63,4 @@ typedef struct packed {
                        logic csr_imm;
                        } rtl_alu_pkt_t;
 
-endpackage : rtl_pkg
+endpackage: // rtl_pkg

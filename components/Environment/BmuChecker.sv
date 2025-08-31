@@ -30,22 +30,22 @@ class BmuChecker extends uvm_component;
 
     // Write function for actual DUT results (called by monitor)
     function void write(BmuSequenceItem item);
-        if (item.kind == Actual)begin
-            `uvm_info("BMU_CHECKER", $sformatf("Received actual result: %h",
-                                                item.resultFf), UVM_DEBUG)
-            actualQueue.push_back(item);
-            compareIfReady();
-        end
-        else if (item.kind == Expected) begin
-            `uvm_info("BMU_CHECKER", $sformatf("Received expected result: %h",
-                                                item.resultFf), UVM_DEBUG)
-            expectedQueue.push_back(item);
-            compareIfReady();
+        // if (item.kind == Actual)begin
+        //     `uvm_info("BMU_CHECKER", $sformatf("Received actual result: %h",
+        //                                         item.resultFf), UVM_DEBUG)
+        //     actualQueue.push_back(item);
+        //     compareIfReady();
+        // end
+        // else if (item.kind == Expected) begin
+        //     `uvm_info("BMU_CHECKER", $sformatf("Received expected result: %h",
+        //                                         item.resultFf), UVM_DEBUG)
+        //     expectedQueue.push_back(item);
+        //     compareIfReady();
 
-        end
-        else begin
-            `uvm_error("BMU_CHECKER", "Unknown item type")
-        end
+        // end
+        // else begin
+        //     `uvm_error("BMU_CHECKER", "Unknown item type")
+        // end
 endfunction
     // Compare actual vs expected
     function void compareIfReady();

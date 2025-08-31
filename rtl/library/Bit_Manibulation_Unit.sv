@@ -1,6 +1,14 @@
+`include "/home/Trainee3/BMU/rtl/library/rtl_pdef.sv"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
+`include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
+`include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
+`include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
+
 module Bit_Manipulation_Unit
-  import rtl_pkg::*;
-  #(`include "rtl_param.vh")
+import rtl_pkg::*;
+#(
+    `include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
+  )
  (
     input logic clk,       // Top level clock
     input logic rst_l,     // Reset

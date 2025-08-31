@@ -9,8 +9,8 @@ class BmuRefModel extends uvm_component;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        inExport = new("in_export", this);
-        refExpectedExport = new("ref_expected_export", this);
+        inExport = new("inExport", this);
+        refExpectedExport = new("refExpectedExport", this);
     endfunction
 
     function void connect_phase(uvm_phase phase);

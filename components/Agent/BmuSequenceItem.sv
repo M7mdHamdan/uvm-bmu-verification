@@ -1,6 +1,7 @@
-`include "/home/Trainee3/BMU/package/BmuDef.sv"
+// `include "/home/Trainee3/BMU/package/BmuDef.sv"
 class BmuSequenceItem extends uvm_sequence_item;
     //For write in checker
+    typedef enum {Actual, Expected} itemKind;
     itemKind kind;
 
     rand logic clk;

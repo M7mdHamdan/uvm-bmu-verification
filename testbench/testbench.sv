@@ -1,6 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-`include "../package/bmuPkg.sv"
+`include "/home/Trainee3/BMU/package/bmuPkg.sv"
 import bmuPkg::*;
 
 module testbench;
@@ -9,7 +9,7 @@ module testbench;
     
     BmuInterface bmuIf(clk);
 
-    // Bit_Manipulation_sUnit dut (
+    // Bit_Manipulation_Unit dut (
     //     .clk(bmuIf.clk),
     //     .rst_l(bmuIf.rstL),
     //     .scan_mode(bmuIf.scanMode),

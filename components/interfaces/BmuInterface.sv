@@ -1,5 +1,6 @@
-`include "/home/Trainee3/BMU/package/BmuDef.sv"
+// `include "/home/Trainee3/BMU/package/BmuDef.sv"
 interface BmuInterface(input logic clk);
+    typedef enum {Actual, Expected} itemKind;
     itemKind kind; // To distinguish between actual and expected items
     // Input signals
     logic rstL;

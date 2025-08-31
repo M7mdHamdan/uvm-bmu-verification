@@ -25,5 +25,6 @@ class BmuEnvironment extends uvm_env;
         scoreboard.refModelPort.connect(refModel.inExport);
         scoreboard.checkerActualPort.connect(bmuChecker.actualExport);
         refModel.refExpectedExport.connect(bmuChecker.expectedExport);
+
     endfunction
 endclass
