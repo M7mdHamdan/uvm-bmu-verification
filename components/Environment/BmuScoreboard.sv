@@ -49,10 +49,10 @@ class BmuScoreboard extends uvm_scoreboard;
         
         // Send to reference model for expected result generation
         refModelPort.write(scoreboardItem);
-        
-        // Send actual result to checker
-        // checkerActualPort.writeActual(scoreboardItem);
-        
+
+        // Send to checker
+        checkerActualPort.write(scoreboardItem);
+
         // Store in queue for tracking
         transactionQueue.push_back(scoreboardItem);
         
@@ -109,12 +109,23 @@ class BmuScoreboard extends uvm_scoreboard;
         end
     endfunction
 
-    // Run phase for periodic maintenance
     // task run_phase(uvm_phase phase);
-    //     forever begin
-    //         #1000;
-    //         clearProcessedTransactions();
-    //     end
+    //     super.run_phase(phase);
+    //      wait(packetQueue.size>0);
+    //         packet = packetQueue.pop_front();
+    //         ALU_RF(packet.A, packet.B, packet.Opcode,
+    //                refPacket.Result, refPacket.Error);
+            
+    //         if(is_equal(packet, refPacket)) begin
+    //             `uvm_info("PASS", $sformatf("------ :: Match :: ------"), UVM_LOW); 
+    //             `uvm_info("MATCH", $sformatf("Actual: A=%0h B=%0h Op=%0h Result=%0h Error=%0b | Expected: Result=%0h Error=%0b", 
+    //                      packet.A, packet.B, packet.Opcode, packet.Result, packet.Error, refPacket.Result, refPacket.Error), UVM_LOW);
+    //         end
+    //         else begin
+    //             `uvm_info("FAIL", $sformatf("------ :: Mismatch :: ------"), UVM_LOW);
+    //             `uvm_info("MISMATCH", $sformatf("Actual: A=%0h B=%0h Op=%0h Result=%0h Error=%0b | Expected: Result=%0h Error=%0b", 
+    //                      packet.A, packet.B, packet.Opcode, packet.Result, packet.Error, refPacket.Result, refPacket.Error), UVM_LOW);
+    //         end
     // endtask
 
 endclass: BmuScoreboard

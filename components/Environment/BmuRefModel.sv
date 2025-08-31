@@ -1,4 +1,5 @@
 class BmuRefModel extends uvm_component;
+    `uvm_component_utils(BmuRefModel)
     uvm_analysis_export #(BmuSequenceItem) inExport;
     uvm_analysis_port #(BmuSequenceItem) refExpectedExport;
 

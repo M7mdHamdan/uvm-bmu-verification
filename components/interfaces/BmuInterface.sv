@@ -1,10 +1,56 @@
+`include "/home/Trainee3/BMU/package/BmuDef.sv"
 interface BmuInterface(input logic clk);
-    import rtl_pkg::*;
-
+    itemKind kind; // To distinguish between actual and expected items
     // Input signals
     logic rstL;
     logic scanMode;
     logic validIn;
+    typedef struct packed {
+                    logic clz;  // done
+                    logic ctz;  // done
+                    logic cpop;
+                    logic siext_b;
+                    logic siext_h;
+                    logic min;
+                    logic max;
+                    logic pack;
+                    logic packu;
+                    logic packh;
+                    logic rol; // done
+                    logic ror; // done
+                    logic grev;
+                    logic gorc;
+                    logic zbb;
+                    logic bset;
+                    logic bclr;
+                    logic binv;
+                    logic bext;
+                    logic sh1add; // done
+                    logic sh2add; // done
+                    logic sh3add; // done
+                    logic zba; // done
+                    logic land; // done
+                    logic lor; // done
+                    logic lxor; // done
+                    logic sll; // done
+                    logic srl; // done
+                    logic sra; // done
+                    logic beq;
+                    logic bne;
+                    logic blt;
+                    logic bge;
+                    logic add;    // done
+                    logic sub;    // done
+                    logic slt;    // done
+                    logic unsign; // done
+                    logic jal;
+                    logic predict_t;
+                    logic predict_nt;
+                    logic csr_write;
+                    logic csr_imm;
+                    } rtl_alu_pkt_t;
+    rtl_alu_pkt_t ap;
+
     logic csrRenIn;
     logic [31:0] csrRdataIn;
     logic [31:0] aIn;
@@ -13,52 +59,6 @@ interface BmuInterface(input logic clk);
     // Output signals
     logic [31:0] resultFf;
     logic error;
-
-    typedef struct packed {
-                       logic clz;  // done
-                       logic ctz;  // done
-                       logic cpop;
-                       logic siext_b;
-                       logic siext_h;
-                       logic min;
-                       logic max;
-                       logic pack;
-                       logic packu;
-                       logic packh;
-                       logic rol; // done
-                       logic ror; // done
-                       logic grev;
-                       logic gorc;
-                       logic zbb;
-                       logic bset;
-                       logic bclr;
-                       logic binv;
-                       logic bext;
-                       logic sh1add; // done
-                       logic sh2add; // done
-                       logic sh3add; // done
-                       logic zba; // done
-                       logic land; // done
-                       logic lor; // done
-                       logic lxor; // done
-                       logic sll; // done
-                       logic srl; // done
-                       logic sra; // done
-                       logic beq;
-                       logic bne;
-                       logic blt;
-                       logic bge;
-                       logic add;    // done
-                       logic sub;    // done
-                       logic slt;    // done
-                       logic unsign; // done
-                       logic jal;
-                       logic predict_t;
-                       logic predict_nt;
-                       logic csr_write;
-                       logic csr_imm;
-                       } rtl_alu_pkt_t;
-    rtl_alu_pkt_t ap;
 
     clocking DriverCb @ (negedge clk);
         default input #1 output #0;

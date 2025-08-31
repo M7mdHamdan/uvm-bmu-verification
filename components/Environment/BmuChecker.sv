@@ -1,4 +1,5 @@
-class bmuChecker extends uvm_component;
+class BmuChecker extends uvm_component;
+    `uvm_component_utils(BmuChecker)
     // Analysis exports to receive transactions
     uvm_analysis_export #(BmuSequenceItem) actualExport;
     uvm_analysis_export #(BmuSequenceItem) expectedExport;
@@ -28,21 +29,24 @@ class bmuChecker extends uvm_component;
     endfunction
 
     // Write function for actual DUT results (called by monitor)
-    function void writeActual(BmuSequenceItem actualItem);
-        `uvm_info("BMU_CHECKER", $sformatf("Received actual result: %h",
-                                            actualItem.resultFf), UVM_DEBUG)
-        actualQueue.push_back(actualItem);
-        compareIfReady();
-    endfunction
+    function void write(BmuSequenceItem item);
+        if (item.kind == Actual)begin
+            `uvm_info("BMU_CHECKER", $sformatf("Received actual result: %h",
+                                                item.resultFf), UVM_DEBUG)
+            actualQueue.push_back(item);
+            compareIfReady();
+        end
+        else if (item.kind == Expected) begin
+            `uvm_info("BMU_CHECKER", $sformatf("Received expected result: %h",
+                                                item.resultFf), UVM_DEBUG)
+            expectedQueue.push_back(item);
+            compareIfReady();
 
-    // Write function for expected results (called by reference model)
-    function void writeExpected(BmuSequenceItem expectedItem);
-        `uvm_info("BMU_CHECKER", $sformatf("Received expected result: %h",
-                                             expectedItem.resultFf), UVM_DEBUG)
-        expectedQueue.push_back(expectedItem);
-        compareIfReady();
-    endfunction
-
+        end
+        else begin
+            `uvm_error("BMU_CHECKER", "Unknown item type")
+        end
+endfunction
     // Compare actual vs expected
     function void compareIfReady();
         if (actualQueue.size() > 0 && expectedQueue.size() > 0) begin
@@ -70,4 +74,4 @@ class bmuChecker extends uvm_component;
         end
     endfunction
   
-endclass: bmuChecker
+endclass: BmuChecker
