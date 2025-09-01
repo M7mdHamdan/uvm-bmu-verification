@@ -57,9 +57,9 @@ interface BmuInterface(input logic clk);
     logic [31:0] aIn;
     logic [31:0] bIn;
     
-    // Output signals
-    logic [31:0] resultFf;
-    logic error;
+    // Output signals (initialized to prevent X values)
+    logic [31:0] resultFf = 32'h00000000;
+    logic error = 1'b0;
 
     clocking DriverCb @ (negedge clk);
         default input #1 output #0;

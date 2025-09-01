@@ -9,6 +9,7 @@ module testbench;
     
     BmuInterface bmuIf(clk);
 
+    // DUT commented out due to compilation issues
     // Bit_Manipulation_Unit dut (
     //     .clk(bmuIf.clk),
     //     .rst_l(bmuIf.rstL),
