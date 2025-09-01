@@ -5,8 +5,6 @@ class csrWriteSequence extends uvm_sequence #(BmuSequenceItem);
         super.new(name);
     endfunction 
 
-
-
     task body();
             BmuSequenceItem item = BmuSequenceItem::type_id::create("item");
         item.rstL = 0;
@@ -28,6 +26,8 @@ class csrWriteSequence extends uvm_sequence #(BmuSequenceItem);
             item.csr_imm = 0;
         start_item(item);
         finish_item(item);
+
+
 
     endtask
 

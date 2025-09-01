@@ -26,6 +26,11 @@ class andErrSequence extends uvm_sequence #(BmuSequenceItem);
         //
         start_item(item);
         finish_item(item);
+            item.csrRenIn = 0;
+            item.ap.lxor = 1;
+        start_item(item);
+        finish_item(item);
+        
             item.ap.zbb = 1;
         start_item(item);
         finish_item(item);

@@ -1,14 +1,17 @@
-import uvm_pkg::*;
-import bmuPkg::*;
+
 
 
 `include "uvm_macros.svh"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
 `include "/home/Trainee3/BMU/rtl/library/Bit_Manibulation_Unit.sv"
 
-`include "package/bmuPkg.sv"
+// `include "/home/Trainee3/BMU/package/bmuPkg.sv"
 
 module testbench;
+
+    import uvm_pkg::*;
+    import bmuPkg::*;
+    
     logic clk, rstL;
     always #5 clk = ~clk;
     

@@ -3,13 +3,14 @@
 // `include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
-`include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
-`include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
+
 
 module Bit_Manipulation_Unit
-import rtl_pkg::*;
+
 #(
-    `include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
+    parameter rtl_param_t = 'h0 //`include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
   )
  (
     input logic clk,       // Top level clock
@@ -26,7 +27,7 @@ import rtl_pkg::*;
     output logic [31:0] result_ff,  // final result
     output logic error
 );
-
+import rtl_pkg::*;
   rtl_predict_pkt_t        pp_in;  // Predicted branch structure
   logic             [31:1] pc_in;  // for pc=pc+2,4 calculations
   logic             [12:1] brimm_in;  // Branch offset
