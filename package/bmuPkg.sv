@@ -1,21 +1,21 @@
 // Include RTL library files in dependency order
 // `include "/home/Trainee3/BMU/rtl/library/rtl_pdef.sv"
-// `include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
+// // `include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
 // `include "/home/Trainee3/BMU/rtl/library/Bit_Manibulation_Unit.sv"
-// `include "/home/Trainee3/BMU/rtl/library/Bit_Manibulation_Unit.sv"
+
 
 // Include Interface separately (cannot be in package)
-`include "/home/Trainee3/BMU/components/interfaces/BmuInterface.sv"
+// `include "/home/Trainee3/BMU/components/interfaces/BmuInterface.sv"
 
 package bmuPkg;
     
     // Import UVM and RTL packages inside the package
     `include "uvm_macros.svh"
     import uvm_pkg::*;
-    import rtl_pkg::*;
+    // import rtl_pkg::*;
     
 
     // Include Sequence Item

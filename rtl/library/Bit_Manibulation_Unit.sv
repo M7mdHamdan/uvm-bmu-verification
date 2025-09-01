@@ -1,8 +1,10 @@
-`include "/home/Trainee3/BMU/rtl/library/rtl_pdef.sv"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_pdef.sv"
 // `include "/home/Trainee3/BMU/rtl/library/rtl_param.vh"
-`include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
-`include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
 `include "/home/Trainee3/BMU/rtl/library/rtl_lib.sv"
+`include "/home/Trainee3/BMU/rtl/library/rtl_defines.vh"
 
 module Bit_Manipulation_Unit
 import rtl_pkg::*;
