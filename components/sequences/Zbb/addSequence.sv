@@ -6,14 +6,14 @@ class addSequence extends uvm_sequence #(BmuSequenceItem);
     endfunction 
 
     task body();
-        BmuSequenceItem item = BmuSequenceItem::type_id::create("req");
+        BmuSequenceItem item = BmuSequenceItem::type_id::create("item");
 
-        item.rstL = 1;
+        item.rstL = 0;
         start_item(item);
         `uvm_info(get_type_name(), "Reset the DUT", UVM_NONE);
         finish_item(item);
         // 15 + 27 = 42 LEGIT
-            item.rstL = 0;
+            item.rstL = 1;
             item.csrRenIn = 0;
             item.ap = 0;
             item.ap.add = 1;

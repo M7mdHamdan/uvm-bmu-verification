@@ -1,14 +1,12 @@
 import uvm_pkg::*;
-import rtl_pkg::*;
 import bmuPkg::*;
 
 
 `include "uvm_macros.svh"
-`include "../rtl/library/rtl_def.sv"
-`include "../package/bmuPkg.sv"
+// `include "/home/Trainee3/BMU/rtl/library/rtl_def.sv"
 `include "/home/Trainee3/BMU/rtl/library/Bit_Manibulation_Unit.sv"
 
-
+`include "package/bmuPkg.sv"
 
 module testbench;
     logic clk, rstL;
