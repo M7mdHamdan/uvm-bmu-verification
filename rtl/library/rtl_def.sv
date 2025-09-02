@@ -1,5 +1,7 @@
+
 package rtl_pkg;
-    typedef struct packed {
+
+typedef struct packed {
                        logic misp;
                        logic ataken;
                        logic boffset;
@@ -18,7 +20,7 @@ package rtl_pkg;
                        } rtl_predict_pkt_t;
 
 
-    typedef struct packed {
+typedef struct packed {
                        logic clz;  // done
                        logic ctz;  // done
                        logic cpop;
@@ -63,4 +65,4 @@ package rtl_pkg;
                        logic csr_imm;
                        } rtl_alu_pkt_t;
 
-endpackage: // rtl_pkg
+endpackage // rtl_pkg

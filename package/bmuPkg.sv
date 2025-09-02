@@ -24,6 +24,7 @@ package bmuPkg;
 
     // Include Sequences
     `include "../components/sequences/Zbb/addSequence.sv"//tst sequence
+    `include "../components/sequences/Zbb/AND/andSequence.sv"
 
     // UVM Components (fixed paths for running from sim/)
     `include "../components/Agent/BmuSequencer.sv"
@@ -38,7 +39,8 @@ package bmuPkg;
     `include "../components/Environment/BmuChecker.sv"
     `include "../components/Environment/BmuEnvironment.sv"
 
-    // Include Tests
+    // // Include Tests
     `include "../tests/Zbb/ArithmeticTest.sv"
+    `include "../tests/Zbb/AndTest.sv"
 
 endpackage : bmuPkg

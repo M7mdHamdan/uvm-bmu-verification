@@ -11,6 +11,7 @@ class andSequence extends uvm_sequence #(BmuSequenceItem);
         item.rstL = 0;
         start_item(item);
         `uvm_info(get_type_name(), "Reset the DUT", UVM_NONE);
+        $display("Hello world");
         finish_item(item);
         // 
             item.rstL = 1;
@@ -22,9 +23,11 @@ class andSequence extends uvm_sequence #(BmuSequenceItem);
                 bIn inside {[32'h0000_0000:32'hFFFF_FFFF]};
             });
             item.ap.zbb = 0;
+            `uvm_info(get_type_name(), "INIT values DUT", UVM_NONE);
         //
         start_item(item);
         finish_item(item);
+            `uvm_info(get_type_name(), "Set ZBB to 1. 2nd transaction", UVM_NONE);
             item.ap.zbb = 1;
         start_item(item);
         finish_item(item);

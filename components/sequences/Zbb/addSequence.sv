@@ -1,3 +1,6 @@
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+
 class addSequence extends uvm_sequence #(BmuSequenceItem);
 
     `uvm_object_utils(addSequence)
