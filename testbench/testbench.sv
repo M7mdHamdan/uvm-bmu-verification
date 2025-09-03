@@ -35,7 +35,10 @@ module testbench;
     initial begin
         uvm_config_db#(virtual BmuInterface)::set(uvm_root::get(), "*", "vif", bmuIf);
     end
-
+    initial begin
+        clk = 0;
+        rstL = 1; 
+    end
     initial begin
         run_test();
     end
@@ -45,8 +48,9 @@ module testbench;
     // end
 
     initial begin
+        $display("simulation started");
+        #10000000000000; 
         $display("simulation finished");
-        #1000000000; 
         $finish; 
     end
 endmodule

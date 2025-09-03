@@ -80,6 +80,18 @@ class BmuSequenceItem extends uvm_sequence_item;
     //  Constructor: new
     function new(string name = "BmuSequenceItem");
         super.new(name);
+                // Initialize with default values
+        // clk = 0;
+        // rstL = 1;
+        // scanMode = 0;
+        // validIn = 0;
+        // ap = 0;
+        // csrRenIn = 0;
+        // csrRdataIn = 0;
+        // aIn = 0;
+        // bIn = 0;
+        // resultFf = 0;
+        // error = 0;
     endfunction: new
     
 endclass: BmuSequenceItem

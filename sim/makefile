@@ -1,6 +1,11 @@
 # 	xrun -sv -uvm ../testbench/testbench.sv -incdir /home/Trainee3/BMU/package -incdir /home/Trainee3/BMU/rtl/library
 run:
-	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=AndTest
+	rm -rf waves.shm 
+	rm -rf xrun.log
+	rm -rf xrun.history
+	rm -rf xcelium.*
+# 	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=AndTest
+	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=ArithmeticTest
 
 chat:
 	xrun -sv -uvm \
