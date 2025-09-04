@@ -2,6 +2,12 @@ class BmuRefModel extends uvm_component;
     `uvm_component_utils(BmuRefModel)
     uvm_analysis_imp #(BmuSequenceItem, BmuRefModel) inExport;
     uvm_analysis_port #(BmuSequenceItem) refExpectedExport;
+    
+    // Add a queue to model pipeline delay
+    BmuSequenceItem delayedItems[$];
+    
+    // Configuration parameters
+    int pipeline_depth = 1; // Set to match RTL pipeline depth
 
     function new(string name = "BmuRefModel", uvm_component parent);
         super.new(name, parent);
@@ -180,7 +186,28 @@ class BmuRefModel extends uvm_component;
             end
         endcase
 
-        refExpectedExport.write(refItem);
+        // Pipeline modeling - put in queue
+        delayedItems.push_back(refItem);
+        
+        // If we have enough items in the queue, send the oldest one
+        if (delayedItems.size()> pipeline_depth) begin
+            BmuSequenceItem delayedItem = delayedItems.pop_front();
+            refExpectedExport.write(delayedItem);
+        end
+    endfunction
+    
+    // Function to flush any remaining items in the pipeline at end of simulation
+    function void flush_pipeline();
+        while (delayedItems.size() > 0) begin
+            BmuSequenceItem delayedItem = delayedItems.pop_front();
+            refExpectedExport.write(delayedItem);
+        end
+    endfunction
+    
+    // Make sure to flush pipeline at end of simulation
+    function void report_phase(uvm_phase phase);
+        super.report_phase(phase);
+        flush_pipeline();
     endfunction
     
     function logic [31:0] computeSignedComparison(logic [31:0] a, logic [31:0] b, logic is_unsigned, logic is_min);

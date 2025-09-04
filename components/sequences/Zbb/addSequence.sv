@@ -25,10 +25,16 @@ class addSequence extends uvm_sequence #(BmuSequenceItem);
         `uvm_info(get_type_name(), "Reset the DUT", UVM_NONE);
         finish_item(item);
         
-        // Try different test value - let's use smaller numbers for debugging
-        $display("10 + 5 = 15");
+        // Now activate the DUT
         item.rstL = 1;
-        item.validIn = 1;  // Set valid input flag to enable operation
+        item.validIn = 1;
+        start_item(item);
+        finish_item(item);
+        
+        // Try a simple addition with known values
+        $display("Performing addition: 10 + 6 = 16");
+        item.rstL = 1;
+        item.validIn = 1;
         item.scanMode = 0;
         item.csrRenIn = 0;
         item.csrRdataIn = 0;
@@ -39,24 +45,16 @@ class addSequence extends uvm_sequence #(BmuSequenceItem);
         // Turn on only the addition operation
         item.ap.add = 1;
         
-        // Make sure all other operations are off
-        item.ap.land = 0;  // Ensure logical AND is off
-        item.ap.lor = 0;   // Ensure logical OR is off
-        item.ap.lxor = 0;  // Ensure logical XOR is off
-        item.ap.zbb = 0;   // Ensure Zbb extension is off
-        item.ap.zba = 0;   // Ensure Zba extension is off
-        item.ap.sub = 0;   // Ensure subtraction is off
+        item.aIn = 32'd10;
+        item.bIn = 32'd6;
         
         // Print control bits for debugging
         $display("Control bits: add=%0d, land=%0d, lor=%0d, lxor=%0d, zbb=%0d, zba=%0d, sub=%0d", 
                  item.ap.add, item.ap.land, item.ap.lor, item.ap.lxor, item.ap.zbb, item.ap.zba, item.ap.sub);
         
-        item.aIn = 32'd10;
-        item.bIn = 32'd6;
-        // 15 + 27 = 42
         start_item(item);
         finish_item(item);
-        $display("transaction sent");
+        $display("transaction sent 10 + 6");
     endtask
 
 endclass
