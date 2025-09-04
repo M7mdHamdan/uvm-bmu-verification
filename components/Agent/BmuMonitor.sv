@@ -19,7 +19,8 @@ class BmuMonitor extends uvm_monitor;
     
     task run_phase(uvm_phase phase);
         forever begin
-            @(vif.MonitorCb);
+            // @(vif.MonitorCb);
+            @(posedge vif.clk);
             item = BmuSequenceItem::type_id::create("item");
             item.rstL = vif.MonitorCb.rstL;
             item.scanMode = vif.MonitorCb.scanMode;

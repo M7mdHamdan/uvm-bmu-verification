@@ -10,7 +10,8 @@ class BmuDriver extends uvm_driver #(BmuSequenceItem);
     endfunction
 
     task drive();
-        @(vif.DriverCb);
+        // @(vif.DriverCb);
+        @(posedge vif.clk);
         vif.DriverCb.rstL <= item.rstL;  
         vif.DriverCb.scanMode <= item.scanMode;
         vif.DriverCb.validIn <= item.validIn;

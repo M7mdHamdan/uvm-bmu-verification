@@ -49,7 +49,7 @@ module testbench;
 
     initial begin
         $display("simulation started");
-        #10000000000000; 
+        #10000000000000000; 
         $display("simulation finished");
         $finish; 
     end

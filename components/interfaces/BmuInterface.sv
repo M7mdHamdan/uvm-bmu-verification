@@ -61,7 +61,7 @@ interface BmuInterface(input logic clk);
     logic error;
 
     clocking DriverCb @ (negedge clk);
-        default input #1 output #0;
+        default input #2 output #0;
         output rstL;
         output scanMode;
         output validIn;
@@ -73,7 +73,7 @@ interface BmuInterface(input logic clk);
     endclocking
 
     clocking MonitorCb @ (posedge clk);
-        default input #0 output #1;
+        default input #0 output #2;
         input rstL;
         input scanMode;
         input validIn;

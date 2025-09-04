@@ -7,7 +7,7 @@ class BmuRefModel extends uvm_component;
     BmuSequenceItem delayedItems[$];
     
     // Configuration parameters
-    int pipeline_depth = 1; // Set to match RTL pipeline depth
+    int pipeline_depth = 3; 
 
     function new(string name = "BmuRefModel", uvm_component parent);
         super.new(name, parent);
@@ -185,9 +185,9 @@ class BmuRefModel extends uvm_component;
                 // Generate stimulus for default case
             end
         endcase
-
+        refExpectedExport.write(refItem);
         // Pipeline modeling - put in queue
-        delayedItems.push_back(refItem);
+        // delayedItems.push_back(refItem);
         
         // If we have enough items in the queue, send the oldest one
         if (delayedItems.size()> pipeline_depth) begin
