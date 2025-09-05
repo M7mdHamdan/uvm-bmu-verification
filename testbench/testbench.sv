@@ -42,10 +42,10 @@ module testbench;
     initial begin
         run_test();
     end
-    // initial begin
-    //     $shm_open("waves.shm",1);
-    //     $shm_probe("AS");
-    // end
+    initial begin
+        $shm_open("waves.shm",1);
+        $shm_probe("AS");
+    end
 
     initial begin
         $display("simulation started");
