@@ -1,11 +1,11 @@
 import uvm_pkg::*;
 `include "uvm_macros.svh"
-class ArithmeticTest extends uvm_test;
+class CpopTest extends uvm_test;
     BmuEnvironment env;
     //Sequences
-    addSequence addSeq;
+    cpopSequence cpopSeq;
 
-    `uvm_component_utils(ArithmeticTest)
+    `uvm_component_utils(CpopTest)
     function new (string name, uvm_component parent);
         super.new(name, parent);
     endfunction
@@ -19,14 +19,14 @@ class ArithmeticTest extends uvm_test;
     task run_phase(uvm_phase phase);
         super.run_phase(phase);
         phase.raise_objection(this);
-        addSeq = addSequence::type_id::create("addSeq");
+        cpopSeq = cpopSequence::type_id::create("cpopSeq");
     
-        addSeq.start(env.agent.sequencer);
+        cpopSeq.start(env.agent.sequencer);
         phase.drop_objection(this);
-        `uvm_info(get_type_name(), "End of BMU regression test", UVM_LOW);
+        `uvm_info(get_type_name(), "End of CPOP regression test", UVM_LOW);
 
     endtask
 
 
 
-endclass: ArithmeticTest
+endclass: CpopTest

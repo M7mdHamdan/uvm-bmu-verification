@@ -5,8 +5,9 @@ run:
 	rm -rf xrun.history
 	rm -rf xcelium.*
 # 	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=AndTest
-	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=ArithmeticTest
-# 	+rwc -access -debug_opt -verisium_interactive
+	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES \
+	+UVM_TESTNAME=AndTest \
+#  	-access +rwc -debug_opt verisium_interactive
 
 
 chat:
@@ -23,3 +24,21 @@ clean:
 	rm -rf xrun.log
 	rm -rf xrun.history
 	rm -rf xcelium.*
+
+# Run CPOP test
+cpop:
+	rm -rf waves.shm 
+	rm -rf xrun.log
+	rm -rf xrun.history
+	rm -rf xcelium.*
+	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=CpopTest \
+	-access +rwc
+
+# Run Arithmetic test
+arith:
+	rm -rf waves.shm 
+	rm -rf xrun.log
+	rm -rf xrun.history
+	rm -rf xcelium.*
+	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=ArithmeticTest \
+	-access +rwc

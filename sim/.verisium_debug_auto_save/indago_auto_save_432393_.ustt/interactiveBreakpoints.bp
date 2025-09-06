@@ -1,0 +1,1 @@
+uvm_message -stop_on_error ON

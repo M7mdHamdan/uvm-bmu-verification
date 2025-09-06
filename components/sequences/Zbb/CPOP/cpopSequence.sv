@@ -1,3 +1,6 @@
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+
 class cpopSequence extends uvm_sequence #(BmuSequenceItem);
 
     `uvm_object_utils(cpopSequence)
@@ -42,13 +45,27 @@ class cpopSequence extends uvm_sequence #(BmuSequenceItem);
         start_item(item);
         `uvm_info(get_type_name(), "CPOP first test case", UVM_NONE);
         finish_item(item);
-        
+        #20;
         // Try another test case with different input
         item.aIn = 32'hFFFFFFFF; // Should result in count of 32 bits set to 1
         
         start_item(item);
         `uvm_info(get_type_name(), "CPOP second test case", UVM_NONE);
         finish_item(item);
+        #20;
+        item.aIn = 32'h0008FFFF; // Should result in count of 32 bits set to 1
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "CPOP second test case", UVM_NONE);
+        finish_item(item);
+        #20;
+        item.aIn = 32'h0009FFFF; // Should result in count of 32 bits set to 1
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "CPOP second test case", UVM_NONE);
+        finish_item(item);
+        #20;
+
     endtask
 
 endclass
