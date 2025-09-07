@@ -104,7 +104,8 @@ class BmuRefModel extends uvm_component;
 
                 //Ex 12 CLZ
                 if (refItem.ap.clz == 1) begin
-                    // refItem.resultFf = $count_zeros(refItem.aIn);
+                    // Count Leading Zeros - counts the number of consecutive zeros from MSB
+                    refItem.resultFf = countLeadingZeros(refItem.aIn);
                 end
                 //Ex 13 CPOP
                 if (refItem.ap.cpop == 1) begin
@@ -126,10 +127,10 @@ class BmuRefModel extends uvm_component;
                 end
                 //Ex 17 GORC
                 if (refItem.ap.gorc == 1 && refItem.bIn[4:0] == 5'b00111) begin
-                    refItem.resultFf = {|(refItem.aIn[31:24] ? 8'hFF : 8'h00),
-                                        |(refItem.aIn[23:16] ? 8'hFF : 8'h00),
-                                        |(refItem.aIn[15:8] ? 8'hFF : 8'h00),
-                                        |(refItem.aIn[7:0] ? 8'hFF : 8'h00)};
+                    refItem.resultFf = {(|refItem.aIn[31:24] ? 8'hFF : 8'h00),
+                                        (|refItem.aIn[23:16] ? 8'hFF : 8'h00),
+                                        (|refItem.aIn[15:8] ? 8'hFF : 8'h00),
+                                        (|refItem.aIn[7:0] ? 8'hFF : 8'h00)};
                 end
             end
 
@@ -248,6 +249,27 @@ class BmuRefModel extends uvm_component;
         end else begin
             return comparisonResult ? 32'h1 : 32'h0;
         end
+    endfunction
+
+    // Function to count leading zeros in a 32-bit value
+    function logic [31:0] countLeadingZeros(logic [31:0] value);
+        logic [31:0] count;
+        int i;
+        
+        count = 0;
+        
+        // Check each bit from MSB (bit 31) to LSB (bit 0)
+        for (i = 31; i >= 0; i--) begin
+            if (value[i] == 1'b1) begin
+                // Found first '1' bit, stop counting
+                break;
+            end else begin
+                // Found '0' bit, increment count
+                count = count + 1;
+            end
+        end
+        
+        return count;
     endfunction
 
 endclass: BmuRefModel

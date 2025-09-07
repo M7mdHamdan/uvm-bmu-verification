@@ -50,6 +50,79 @@ class minSequence extends uvm_sequence #(BmuSequenceItem);
         start_item(item);
         `uvm_info(get_type_name(), "MIN second test case: -5 vs 15", UVM_NONE);
         finish_item(item);
+        
+        // Test Case 3: Both negative numbers
+        item.aIn = 32'hFFFFFFF0; // -16 in 2's complement
+        item.bIn = 32'hFFFFFFFA; // -6 in 2's complement
+        // Expected result: -16 (more negative is smaller)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 3: -16 vs -6 (both negative)", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 4: Equal values
+        item.aIn = 32'd42;       // Same value
+        item.bIn = 32'd42;       // Same value
+        // Expected result: 42 (both are equal, either is correct)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 4: 42 vs 42 (equal values)", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 5: Zero vs positive
+        item.aIn = 32'd0;        // Zero
+        item.bIn = 32'd100;      // Positive
+        // Expected result: 0 (zero is smaller)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 5: 0 vs 100", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 6: Zero vs negative
+        item.aIn = 32'd0;        // Zero
+        item.bIn = 32'hFFFFFFFF; // -1 in 2's complement
+        // Expected result: -1 (negative is smaller)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 6: 0 vs -1", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 7: Maximum vs minimum signed integers
+        item.aIn = 32'h7FFFFFFF; // 2147483647 (max positive)
+        item.bIn = 32'h80000000; // -2147483648 (max negative)
+        // Expected result: -2147483648 (most negative)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 7: Max positive vs max negative", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 8: Large positive numbers
+        item.aIn = 32'd1000000;  // Large positive
+        item.bIn = 32'd999999;   // Slightly smaller
+        // Expected result: 999999
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 8: 1000000 vs 999999", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 9: One's complement vs two's complement
+        item.aIn = 32'hFFFFFFFE; // -2 in 2's complement
+        item.bIn = 32'hFFFFFFFD; // -3 in 2's complement
+        // Expected result: -3 (more negative)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 9: -2 vs -3", UVM_NONE);
+        finish_item(item);
+        
+        // Test Case 10: Power of 2 comparisons
+        item.aIn = 32'h40000000; // 2^30
+        item.bIn = 32'h20000000; // 2^29
+        // Expected result: 2^29 (smaller power of 2)
+        
+        start_item(item);
+        `uvm_info(get_type_name(), "MIN Test Case 10: 2^30 vs 2^29", UVM_NONE);
+        finish_item(item);
+        
     endtask
 
 endclass

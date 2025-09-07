@@ -1,7 +1,10 @@
-class csrWriteSequence extends uvm_sequence #(BmuSequenceItem);
+import uvm_pkg::*;
+`include "uvm_macros.svh"
 
-    `uvm_object_utils(csrWriteSequence)
-    function new (string name = "csrWriteSequence");
+class csrWriteErrSequence extends uvm_sequence #(BmuSequenceItem);
+
+    `uvm_object_utils(csrWriteErrSequence)
+    function new (string name = "csrWriteErrSequence");
         super.new(name);
     endfunction 
 
@@ -11,7 +14,7 @@ class csrWriteSequence extends uvm_sequence #(BmuSequenceItem);
         start_item(item);
         `uvm_info(get_type_name(), "Reset the DUT", UVM_NONE);
         finish_item(item);
-            item.csr_imm = 1;
+            item.ap.csr_imm = 1;
             assert(item.randomize() with {
                 aIn inside {[32'h0000_0000:32'hFFFF_FFFF]};
                 bIn inside {[32'h0000_0000:32'hFFFF_FFFF]};
@@ -19,19 +22,19 @@ class csrWriteSequence extends uvm_sequence #(BmuSequenceItem);
             item.rstL = 1;
             item.csrRenIn = 0; 
             item.ap = 0;
-            item.csr_write = 1;
-            item.csr_imm = 1;
+            item.ap.csr_write = 1;
+            item.ap.csr_imm = 1;
             item.ap.zbb = 1;
 
         `uvm_info(get_type_name(), 
                 $sformatf("CSR Write: aIn=0x%0h, bIn=0x%0h, csr_imm=%0b", 
-                item.aIn, item.bIn, item.csr_imm), UVM_MEDIUM);
+                item.aIn, item.bIn, item.ap.csr_imm), UVM_MEDIUM);
         start_item(item);
         finish_item(item);
-            item.csr_imm = 0;
+            item.ap.csr_imm = 0;
         `uvm_info(get_type_name(), 
                 $sformatf("CSR Write: aIn=0x%0h, bIn=0x%0h, csr_imm=%0b", 
-                item.aIn, item.bIn, item.csr_imm), UVM_MEDIUM);
+                item.aIn, item.bIn, item.ap.csr_imm), UVM_MEDIUM);
         start_item(item);
         finish_item(item);
 
