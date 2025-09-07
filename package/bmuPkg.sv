@@ -25,6 +25,7 @@ package bmuPkg;
     // Include Sequences
     `include "../components/sequences/Zbb/addSequence.sv"//tst sequence
     `include "../components/sequences/Zbb/AND/andSequence.sv"
+    `include "../components/sequences/Zbb/AND/andErrSequence.sv"
     `include "../components/sequences/Zbb/CPOP/cpopSequence.sv"
     `include "../components/sequences/Zbb/CLZ/clzSequence.sv"
     `include "../components/sequences/Zbb/MIN/minSequence.sv"
@@ -55,7 +56,7 @@ package bmuPkg;
     //Include Environment Components (commenting out problematic ones for now)
     `include "../components/Environment/BmuRefModel.sv"
     `include "../components/Environment/BmuScoreboard.sv"
-    // `include "../components/Environment/BmuSubscriber.sv"
+    `include "../components/Environment/BmuSubscriber.sv"
     `include "../components/Environment/BmuChecker.sv"
     `include "../components/Environment/BmuEnvironment.sv"
 
@@ -77,5 +78,7 @@ package bmuPkg;
     `include "../tests/Zbp/GorcTest.sv"
     `include "../tests/Zbp/SllTest.sv"
     `include "../tests/Zbp/SraTest.sv"
+    `include "../tests/ComprehensiveCoverageTest.sv"
+    `include "../tests/MegaCoverageTest.sv"
 
 endpackage : bmuPkg

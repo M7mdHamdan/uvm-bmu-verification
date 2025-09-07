@@ -124,6 +124,24 @@ xor:
 	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=XorTest \
 	-access +rwc
 
+# Run XOR test with functional coverage enabled
+xor_cov:
+	rm -rf waves.shm 
+	rm -rf xrun.log
+	rm -rf xrun.history
+	rm -rf xcelium.*
+	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=XorTest \
+	-access +rwc -coverage functional
+
+# Run comprehensive coverage test to achieve 80%+ coverage
+comprehensive_cov:
+	rm -rf waves.shm 
+	rm -rf xrun.log
+	rm -rf xrun.history
+	rm -rf xcelium.*
+	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=ComprehensiveCoverageTest \
+	-access +rwc -coverage functional
+
 # Run CLZ test (Zbb extension)
 clz:
 	rm -rf waves.shm 
@@ -168,4 +186,45 @@ csr:
 	rm -rf xcelium.*
 	xrun -sv -uvm ../testbench/testbench.sv +UVM_NO_RELNOTES +UVM_TESTNAME=CsrTest \
 	-access +rwc
+
+# MEGA Coverage test - runs ALL sequences for maximum coverage of 5 main extensions
+mega_cov:
+	rm -rf cov_work waves.shm xrun.log xrun.history xcelium.*
+	xrun -64bit \
+		+incdir+../rtl/library \
+		+incdir+../package \
+		+incdir+../components/Agent \
+		+incdir+../components/Environment \
+		+incdir+../components/interfaces \
+		+incdir+../components/sequences/Zbb \
+		+incdir+../components/sequences/Zbs \
+		+incdir+../components/sequences/Zba \
+		+incdir+../components/sequences/Zbp \
+		+incdir+../components/sequences/CSR \
+		+incdir+../components/sequences/Zbb/XOR \
+		+incdir+../components/sequences/Zbb/CLZ \
+		+incdir+../components/sequences/Zbb/MIN \
+		+incdir+../components/sequences/Zbb/SUB \
+		+incdir+../components/sequences/Zbb/SLT \
+		+incdir+../components/sequences/Zbb/CPOP \
+		+incdir+../components/sequences/Zba/SH3ADD \
+		+incdir+../components/sequences/Zbs/BEXT \
+		+incdir+../components/sequences/Zbp/ROL \
+		+incdir+../components/sequences/Zbp/PACKU \
+		+incdir+../components/sequences/Zbp/GORC \
+		+incdir+../components/sequences/Zbp/SLL \
+		+incdir+../components/sequences/Zbp/SRA \
+		+incdir+../components/sequences/Zbs/SIEXT_H \
+		+incdir+../components/sequences/CSR/Write \
+		+incdir+../components/sequences/CSR/Read \
+		+incdir+../components/sequences/Zbb/AND \
+		-sv -uvm \
+		-coverage functional \
+		-covoverwrite \
+		-covtest MegaCoverageTest \
+		../testbench/testbench.sv \
+		+UVM_TESTNAME=MegaCoverageTest \
+		+UVM_VERBOSITY=UVM_LOW \
+		+UVM_NO_RELNOTES \
+		-access +rwc
 

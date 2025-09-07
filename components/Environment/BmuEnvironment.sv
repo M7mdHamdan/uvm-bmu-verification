@@ -1,7 +1,7 @@
 class BmuEnvironment extends uvm_env;
     BmuAgent agent;
     BmuScoreboard scoreboard;
-    // BmuSubscriber subscriber;
+    BmuSubscriber subscriber;
     BmuRefModel refModel;
     BmuChecker bmuChecker;
     `uvm_component_utils(BmuEnvironment)
@@ -16,7 +16,7 @@ class BmuEnvironment extends uvm_env;
         scoreboard = BmuScoreboard::type_id::create("scoreboard", this);
         refModel = BmuRefModel::type_id::create("refModel", this);
         bmuChecker = BmuChecker::type_id::create("bmuChecker", this);
-        // subscriber = BmuSubscriber::type_id::create("subscriber", this);
+        subscriber = BmuSubscriber::type_id::create("subscriber", this);
     endfunction
     
     function void connect_phase(uvm_phase phase);
@@ -25,6 +25,7 @@ class BmuEnvironment extends uvm_env;
         scoreboard.refModelPort.connect(refModel.inExport);
         scoreboard.checkerActualPort.connect(bmuChecker.actualExport);
         refModel.refExpectedExport.connect(bmuChecker.expectedExport);
+        agent.monitor.monitorPort.connect(subscriber.analysis_export);
 
     endfunction
 endclass
