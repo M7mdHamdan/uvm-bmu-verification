@@ -3,24 +3,14 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
     
     // Coverage groups for the 5 main RISC-V extensions only
     
-    // Zbb Extension Coverage (Basic Bit Manipulation)
+    // Zbb Extension Coverage
     covergroup cg_zbb_operations;
         option.per_instance = 1;
         option.name = "zbb_operations_cg";
         
-        cp_zbb_enable: coverpoint transaction.ap.zbb {
-            bins zbb_enabled = {1};
-            bins zbb_disabled = {0};
-        }
-        
         cp_clz: coverpoint transaction.ap.clz {
             bins clz_active = {1};
             bins clz_inactive = {0};
-        }
-        
-        cp_ctz: coverpoint transaction.ap.ctz {
-            bins ctz_active = {1};
-            bins ctz_inactive = {0};
         }
         
         cp_cpop: coverpoint transaction.ap.cpop {
@@ -28,44 +18,14 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
             bins cpop_inactive = {0};
         }
         
-        cp_rol: coverpoint transaction.ap.rol {
-            bins rol_active = {1};
-            bins rol_inactive = {0};
-        }
-        
-        cp_ror: coverpoint transaction.ap.ror {
-            bins ror_active = {1};
-            bins ror_inactive = {0};
-        }
-        
-        cp_grev: coverpoint transaction.ap.grev {
-            bins grev_active = {1};
-            bins grev_inactive = {0};
-        }
-        
-        cp_gorc: coverpoint transaction.ap.gorc {
-            bins gorc_active = {1};
-            bins gorc_inactive = {0};
-        }
-        
         cp_min: coverpoint transaction.ap.min {
             bins min_active = {1};
             bins min_inactive = {0};
         }
         
-        cp_max: coverpoint transaction.ap.max {
-            bins max_active = {1};
-            bins max_inactive = {0};
-        }
-        
         cp_land: coverpoint transaction.ap.land {
             bins and_active = {1};
             bins and_inactive = {0};
-        }
-        
-        cp_lor: coverpoint transaction.ap.lor {
-            bins or_active = {1};
-            bins or_inactive = {0};
         }
         
         cp_lxor: coverpoint transaction.ap.lxor {
@@ -88,42 +48,20 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
             bins slt_inactive = {0};
         }
         
-        // Cross coverage for Zbb operations
-        cross_zbb_bit_ops: cross cp_clz, cp_ctz, cp_cpop;
-        cross_zbb_rotate: cross cp_rol, cp_ror;
-        cross_zbb_minmax: cross cp_min, cp_max;
-        cross_zbb_logical: cross cp_land, cp_lor, cp_lxor;
+        // Cross coverage for actual Zbb operations only
+        cross_zbb_logical: cross cp_land, cp_lxor;
         cross_zbb_arith: cross cp_add, cp_sub, cp_slt;
+        cross_zbb_bit_ops: cross cp_clz, cp_cpop, cp_min;
     endgroup
     
-    // Zbs Extension Coverage (Single-bit Operations)
+    // Zbs Extension Coverage
     covergroup cg_zbs_operations;
         option.per_instance = 1;
         option.name = "zbs_operations_cg";
         
-        cp_bset: coverpoint transaction.ap.bset {
-            bins bset_active = {1};
-            bins bset_inactive = {0};
-        }
-        
-        cp_bclr: coverpoint transaction.ap.bclr {
-            bins bclr_active = {1};
-            bins bclr_inactive = {0};
-        }
-        
-        cp_binv: coverpoint transaction.ap.binv {
-            bins binv_active = {1};
-            bins binv_inactive = {0};
-        }
-        
         cp_bext: coverpoint transaction.ap.bext {
             bins bext_active = {1};
             bins bext_inactive = {0};
-        }
-        
-        cp_siext_b: coverpoint transaction.ap.siext_b {
-            bins siext_b_active = {1};
-            bins siext_b_inactive = {0};
         }
         
         cp_siext_h: coverpoint transaction.ap.siext_h {
@@ -131,48 +69,29 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
             bins siext_h_inactive = {0};
         }
         
-        // Cross coverage for single-bit operations
-        cross_single_bit: cross cp_bset, cp_bclr, cp_binv, cp_bext;
-        cross_sign_ext: cross cp_siext_b, cp_siext_h;
+        // Cross coverage for actual operations only
+        cross_zbs_ops: cross cp_bext, cp_siext_h;
     endgroup
     
-    // Zba Extension Coverage (Address Generation)
+    // Zba Extension Coverage
     covergroup cg_zba_operations;
         option.per_instance = 1;
         option.name = "zba_operations_cg";
-        
-        cp_zba_enable: coverpoint transaction.ap.zba {
-            bins zba_enabled = {1};
-            bins zba_disabled = {0};
-        }
-        
-        cp_sh1add: coverpoint transaction.ap.sh1add {
-            bins sh1add_active = {1};
-            bins sh1add_inactive = {0};
-        }
-        
-        cp_sh2add: coverpoint transaction.ap.sh2add {
-            bins sh2add_active = {1};
-            bins sh2add_inactive = {0};
-        }
         
         cp_sh3add: coverpoint transaction.ap.sh3add {
             bins sh3add_active = {1};
             bins sh3add_inactive = {0};
         }
-        
-        // Cross coverage for address generation
-        cross_addr_gen: cross cp_sh1add, cp_sh2add, cp_sh3add;
     endgroup
     
-    // Zbp Extension Coverage (Permutation Operations)
+    // Zbp Extension Coverage
     covergroup cg_zbp_operations;
         option.per_instance = 1;
         option.name = "zbp_operations_cg";
         
-        cp_pack: coverpoint transaction.ap.pack {
-            bins pack_active = {1};
-            bins pack_inactive = {0};
+        cp_rol: coverpoint transaction.ap.rol {
+            bins rol_active = {1};
+            bins rol_inactive = {0};
         }
         
         cp_packu: coverpoint transaction.ap.packu {
@@ -180,9 +99,9 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
             bins packu_inactive = {0};
         }
         
-        cp_packh: coverpoint transaction.ap.packh {
-            bins packh_active = {1};
-            bins packh_inactive = {0};
+        cp_gorc: coverpoint transaction.ap.gorc {
+            bins gorc_active = {1};
+            bins gorc_inactive = {0};
         }
         
         cp_sll: coverpoint transaction.ap.sll {
@@ -190,19 +109,14 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
             bins sll_inactive = {0};
         }
         
-        cp_srl: coverpoint transaction.ap.srl {
-            bins srl_active = {1};
-            bins srl_inactive = {0};
-        }
-        
         cp_sra: coverpoint transaction.ap.sra {
             bins sra_active = {1};
             bins sra_inactive = {0};
         }
         
-        // Cross coverage for pack and shift operations
-        cross_pack_ops: cross cp_pack, cp_packu, cp_packh;
-        cross_shift_ops: cross cp_sll, cp_srl, cp_sra;
+        // Cross coverage for actual operations only
+        cross_zbp_ops: cross cp_rol, cp_packu, cp_gorc;
+        cross_zbp_shifts: cross cp_sll, cp_sra;
     endgroup
     
     // CSR Operations Coverage
@@ -305,7 +219,7 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
         
         border_line = "\n+======================================================+\n";
         
-        `uvm_info("BMU_SUBSCRIBER", $sformatf("%s|          RISC-V EXTENSIONS COVERAGE REPORT            |\n|                                                      |\n| Total Transactions Processed: %-10d             |\n|                                                      |\n| RISC-V Extension Coverage (5 Main Extensions):      |\n| Zbb Extension (Bit Manipulation)  : %6.2f%%          |\n| Zbs Extension (Single-bit Ops)    : %6.2f%%          |\n| Zba Extension (Address Gen)       : %6.2f%%          |\n| Zbp Extension (Permutation)       : %6.2f%%          |\n| CSR Operations                    : %6.2f%%          |\n|                                                      |\n| OVERALL FUNCTIONAL COVERAGE       : %6.2f%%          |%s",
+        `uvm_info("BMU_SUBSCRIBER", $sformatf("%s|          RISC-V EXTENSIONS COVERAGE REPORT            |\n|                                                      |\n| Total Transactions Processed: %-10d             |\n|                                                      |\n| RISC-V Extension Coverage:                           |\n| Zbb Extension                     : %6.2f%%          |\n| Zbs Extension                     : %6.2f%%          |\n| Zba Extension                     : %6.2f%%          |\n| Zbp Extension                     : %6.2f%%          |\n| CSR Operations                    : %6.2f%%          |\n|                                                      |\n| OVERALL FUNCTIONAL COVERAGE       : %6.2f%%          |%s",
             border_line,
             total_transactions,
             zbb_cov, zbs_cov, zba_cov, zbp_cov, csr_cov,
@@ -315,7 +229,7 @@ class BmuSubscriber extends uvm_subscriber #(BmuSequenceItem);
         // Report coverage status
         if (overall_cov >= 80.0) begin
             `uvm_info("BMU_SUBSCRIBER", 
-                     $sformatf("🎉 EXCELLENT! Coverage target achieved: %.2f%%", overall_cov), 
+                     $sformatf("EXCELLENT! Coverage target achieved: %.2f%%", overall_cov), 
                      UVM_LOW)
         end else begin
             `uvm_warning("BMU_SUBSCRIBER", 

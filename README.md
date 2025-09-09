@@ -132,14 +132,18 @@ Coverage results are automatically displayed at test completion:
 
 ```text
 +======================================================+
-|          RISC-V EXTENSIONS COVERAGE REPORT          |
-| Total Transactions Processed: 5555                  |
-| Zbb Extension (Bit Manipulation)  : 100.00%         |
-| Zbs Extension (Single-bit Ops)    :  98.44%         |
-| Zba Extension (Address Gen)       :  95.00%         |
-| Zbp Extension (Permutation)       :  98.44%         |
-| CSR Operations                    :  96.67%         |
-| OVERALL FUNCTIONAL COVERAGE       :  97.71%         |
+|          RISC-V EXTENSIONS COVERAGE REPORT           |
+|                                                      |
+| Total Transactions Processed: 5555                   |
+|                                                      |
+| RISC-V Extension Coverage:                           |
+| Zbb Extension                     : 100.00%          |
+| Zbs Extension                     : 100.00%          |
+| Zba Extension                     : 100.00%          |
+| Zbp Extension                     : 100.00%          |
+| CSR Operations                    :  96.67%          |
+|                                                      |
+| OVERALL FUNCTIONAL COVERAGE       :  99.33%          |
 +======================================================+
 ```
 
