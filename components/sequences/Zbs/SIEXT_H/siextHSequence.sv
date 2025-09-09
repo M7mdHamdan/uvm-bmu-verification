@@ -27,7 +27,7 @@ class siextHSequence extends uvm_sequence #(BmuSequenceItem);
                 // SIEXT_H operation setup
         item.rstL = 1; item.validIn = 1; item.scanMode = 0;
         item.csrRenIn = 0; item.csrRdataIn = 0; item.ap = 0;
-        item.ap.sext = 1;
+        item.ap.siext_h = 1;
         
                 item.aIn = 32'hABCD5678; item.bIn = 32'd0;
         start_item(item); `uvm_info(get_type_name(), "SIEXT_H: positive halfword", UVM_NONE); finish_item(item);

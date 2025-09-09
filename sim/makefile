@@ -223,6 +223,7 @@ mega_cov:
 		-covoverwrite \
 		-covtest MegaCoverageTest \
 		../testbench/testbench.sv \
+    -coverage all -covwork coverage_db \
 		+UVM_TESTNAME=MegaCoverageTest \
 		+UVM_VERBOSITY=UVM_LOW \
 		+UVM_NO_RELNOTES \
