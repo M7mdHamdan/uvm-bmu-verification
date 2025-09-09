@@ -20,7 +20,7 @@ class XorTest extends uvm_test;
         xorSequence xor_seq = xorSequence::type_id::create("xor_seq");
         
         phase.raise_objection(this);
-        `uvm_info(get_type_name(), "Starting XOR (Bitwise Exclusive OR) Test", UVM_NONE);
+        `uvm_info(get_type_name(), "Starting XOR Test", UVM_NONE);
         
         xor_seq.start(bmu_env.agent.sequencer);
         

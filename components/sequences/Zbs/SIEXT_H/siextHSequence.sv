@@ -24,27 +24,31 @@ class siextHSequence extends uvm_sequence #(BmuSequenceItem);
         `uvm_info(get_type_name(), "Reset the DUT", UVM_NONE);
         finish_item(item);
         
-        // Now activate the DUT and set up siext_h operation
-        // siext_h (Sign Extend Half-Word) - sign extends lower 16 bits to 32 bits
-        // result = {{16{a_in[15]}}, a_in[15:0]}
-        item.rstL = 1;
-        item.validIn = 1;
-        item.scanMode = 0;
-        item.csrRenIn = 0;       // Must be 0
-        item.csrRdataIn = 0;
-        item.ap = 0;             // Clear all ap fields first
+                // SIEXT_H operation setup
+        item.rstL = 1; item.validIn = 1; item.scanMode = 0;
+        item.csrRenIn = 0; item.csrRdataIn = 0; item.ap = 0;
+        item.ap.sext = 1;
         
-        // Set siext_h flag (Primary Enable: ap.siext_h = 1)
-        item.ap.siext_h = 1;
+                item.aIn = 32'hABCD5678; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: positive halfword", UVM_NONE); finish_item(item);
         
-        // Test Case 1: Positive half-word (sign bit = 0)
-        item.aIn = 32'h12345678; // Lower 16 bits: 0x5678, bit 15 = 0 (positive)
-        item.bIn = 32'd0;        // Not used for this operation
-        // Expected result: 0x00005678 (sign extended with 0s)
+        item.aIn = 32'h1234ABCD; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: negative halfword", UVM_NONE); finish_item(item);
         
-        start_item(item);
-        `uvm_info(get_type_name(), "SIEXT_H Test Case 1: 0x5678 -> 0x00005678 (positive)", UVM_NONE);
-        finish_item(item);
+        item.aIn = 32'hFFFF7FFF; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: max positive", UVM_NONE); finish_item(item);
+        
+        item.aIn = 32'h00008000; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: max negative", UVM_NONE); finish_item(item);
+        
+        item.aIn = 32'hFFFF0000; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: zero value", UVM_NONE); finish_item(item);
+        
+        item.aIn = 32'h0000FFFF; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: all ones", UVM_NONE); finish_item(item);
+        
+        item.aIn = 32'h12348001; item.bIn = 32'd0;
+        start_item(item); `uvm_info(get_type_name(), "SIEXT_H: boundary case", UVM_NONE); finish_item(item);
         
         // Test Case 2: Negative half-word (sign bit = 1)
         item.aIn = 32'h1234ABCD; // Lower 16 bits: 0xABCD, bit 15 = 1 (negative)
